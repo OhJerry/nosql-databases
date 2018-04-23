@@ -5,3 +5,95 @@
 // If you'd like to test your commands, you can run 'cat homework_4.txt | cypher-shell -u neo4j -p test' from
 // the vagrant box command line. Make sure neo4j is running first.
 // CREATE (a:person { name: 't' });
+
+// Lord of the Rings
+
+CREATE (n:Wizard { name: 'Gandalf' });
+CREATE (n:Hobbit { name: 'Samwise Gamgee' });
+CREATE (n:Hobbit { name: 'Meriadoc Brandybuck' });
+CREATE (n:Hobbit { name: 'Peregrin Took' });
+CREATE (n:Hobbit { name: 'Frodo Baggins' });
+CREATE (n:Hobbit { name: 'Bilbo Baggins' });
+CREATE (n:Hobbit { name: 'Gollum' });
+CREATE (n:Ring { name: 'One Ring' });
+
+
+
+
+MATCH (a:Wizard),(b:Hobbit)
+WHERE a.name = 'Gandalf' AND b.name = 'Samwise Gamgee'
+CREATE (a)-[r:RELTYPE { name: 'Leader_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Wizard),(b:Hobbit)
+WHERE a.name = 'Gandalf' AND b.name = 'Meriadoc Brandybuck'
+CREATE (a)-[r:RELTYPE { name: 'Leader_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Wizard),(b:Hobbit)
+WHERE a.name = 'Gandalf' AND b.name = 'Peregrin Took'
+CREATE (a)-[r:RELTYPE { name: 'Leader_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Wizard),(b:Hobbit)
+WHERE a.name = 'Gandalf' AND b.name = 'Frodo Baggins'
+CREATE (a)-[r:RELTYPE { name: 'Leader_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+
+MATCH (a:Hobbit),(b:Hobbit)
+WHERE a.name = 'Frodo Baggins' AND b.name = 'Samwise Gamgee'
+CREATE (a)-[r:RELTYPE { name: 'Friend_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Hobbit)
+WHERE a.name = 'Frodo Baggins' AND b.name = 'Meriadoc Brandybuck'
+CREATE (a)-[r:RELTYPE { name: 'Friend_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Hobbit)
+WHERE a.name = 'Frodo Baggins' AND b.name = 'Peregrin Took'
+CREATE (a)-[r:RELTYPE { name: 'Friend_of' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Hobbit)
+WHERE a.name = 'Samwise Gamgee' AND b.name = 'Frodo Baggins'
+CREATE (a)-[r:RELTYPE { name: 'Friend_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Hobbit)
+WHERE a.name = 'Meriadoc Brandybuck' AND b.name = 'Frodo Baggins'
+CREATE (a)-[r:RELTYPE { name: 'Friend_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Hobbit)
+WHERE a.name = 'Peregrin Took' AND b.name = 'Frodo Baggins'
+CREATE (a)-[r:RELTYPE { name: 'Friend_of', team: 'Fellowship' }]->(b)
+RETURN type(r), r.name;
+
+
+MATCH (a:Hobbit),(b:Ring)
+WHERE a.name = 'Frodo Baggins' AND b.name = 'One Ring'
+CREATE (a)-[r:RELTYPE { name: 'Holder_of' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Ring)
+WHERE a.name = 'Bilbo Baggins' AND b.name = 'One Ring'
+CREATE (a)-[r:RELTYPE { name: 'Holder_of' }]->(b)
+RETURN type(r), r.name;
+
+MATCH (a:Hobbit),(b:Ring)
+WHERE a.name = 'Gollum' AND b.name = 'One Ring'
+CREATE (a)-[r:RELTYPE { name: 'Holder_of' }]->(b)
+RETURN type(r), r.name;
+
+
+
+
+MATCH (Gandalf{ name: 'Gandalf' }),(others)
+MATCH (Gandalf)-[r]->(others)
+RETURN others.name, r.name;
+
+MATCH (Ring{ name: 'One Ring' }),(others)
+MATCH (Ring)<-[r]-(others)
+RETURN others.name, r.name;
